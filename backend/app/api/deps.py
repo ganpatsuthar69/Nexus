@@ -31,18 +31,22 @@ def get_db() -> Generator[Session, None, None]:
 
 def verify_api_key(
     api_key_header: str | None = Security(api_key_header),
+    api_key: str | None = None,
 ) -> str:
     """Verifies the API key against the environment secret.
     
+    Accepts the key either via the X-API-Key header or an api_key query parameter (used for SSE).
     Returns the actor ("API User") on success, raises 401 on failure.
     """
-    if not api_key_header:
+    key_to_verify = api_key_header or api_key
+    
+    if not key_to_verify:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Missing API Key",
         )
     
-    if api_key_header != API_AUTH_SECRET:
+    if key_to_verify != API_AUTH_SECRET:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid API Key",
