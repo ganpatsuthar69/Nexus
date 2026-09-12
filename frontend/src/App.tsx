@@ -1,31 +1,40 @@
-
-import IncidentOverview from './components/IncidentOverview';
-import WorldState from './components/WorldState';
-import AgentActivity from './components/AgentActivity';
-import DecisionCenter from './components/DecisionCenter';
-import PlanViewer from './components/PlanViewer';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ErrorBoundary } from './components/ui/ErrorBoundary';
+import { Layout } from './components/layout/Layout';
+import { Overview } from './pages/Overview';
+import { WorldState } from './pages/WorldState';
+import { AgentActivity } from './pages/AgentActivity';
+import { Decisions } from './pages/Decisions';
+import { Plans } from './pages/Plans';
 import './index.css';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
   return (
-    <div>
-      <header style={{ padding: '1.5rem', background: 'rgba(15, 23, 42, 0.8)', borderBottom: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(12px)' }}>
-        <h1 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <span style={{ color: 'var(--accent-blue)' }}>NEXUS</span> Dashboard
-          <span className="badge badge-blue" style={{ fontSize: '0.6rem', marginLeft: 'auto' }}>AUTONOMOUS AGENT ACTIVE</span>
-        </h1>
-      </header>
-      
-      <main className="dashboard-grid">
-        <IncidentOverview />
-        <WorldState />
-        
-        <DecisionCenter />
-        <PlanViewer />
-        
-        <AgentActivity />
-      </main>
-    </div>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Overview />} />
+              <Route path="world-state" element={<WorldState />} />
+              <Route path="activity" element={<AgentActivity />} />
+              <Route path="decisions" element={<Decisions />} />
+              <Route path="plans" element={<Plans />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

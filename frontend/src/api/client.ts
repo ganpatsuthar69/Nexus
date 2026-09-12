@@ -41,3 +41,25 @@ export const fetchIncidentPlans = async (incidentId: string): Promise<Plan[]> =>
   if (!res.ok) throw new Error('Failed to fetch plans');
   return res.json();
 };
+
+export const fetchIncident = async (id: string): Promise<Incident> => {
+  const res = await fetch(`${API_URL}/api/incidents/${id}`, { headers });
+  if (!res.ok) throw new Error('Failed to fetch incident details');
+  return res.json();
+};
+
+export const createIncident = async (data: { title: string; description: string; severity: string }): Promise<Incident> => {
+  const res = await fetch(`${API_URL}/api/incidents`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ ...data, status: 'open' }),
+  });
+  if (!res.ok) throw new Error('Failed to create incident');
+  return res.json();
+};
+
+export const fetchEvents = async (): Promise<any[]> => {
+  const res = await fetch(`${API_URL}/api/events`, { headers });
+  if (!res.ok) throw new Error('Failed to fetch events');
+  return res.json();
+};

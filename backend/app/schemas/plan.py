@@ -27,6 +27,8 @@ class PlanUpdate(BaseModel):
     approved_by: str | None = None
 
 
+from .task import TaskRead
+
 class PlanRead(BaseModel):
     id: UUID
     incident_id: UUID
@@ -36,5 +38,6 @@ class PlanRead(BaseModel):
     reason: str | None
     created_at: datetime
     approved_by: str | None
+    tasks: list[TaskRead] = []
 
     model_config = {"from_attributes": True}
