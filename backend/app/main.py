@@ -32,8 +32,18 @@ from app.api.health import router as health_router  # noqa: E402
 
 app.include_router(health_router)
 
-# Future routers:
-# from app.api.events import router as events_router
-# from app.api.plans  import router as plans_router
-# app.include_router(events_router)
-# app.include_router(plans_router)
+from fastapi import Depends
+from app.api.deps import verify_api_key
+from app.api.routers import incidents, events, resources, decisions, world_state
+
+# Require API Key for all of these routes
+authenticated_routers = [
+    incidents.router,
+    events.router,
+    resources.router,
+    decisions.router,
+    world_state.router,
+]
+
+for auth_router in authenticated_routers:
+    app.include_router(auth_router, dependencies=[Depends(verify_api_key)])

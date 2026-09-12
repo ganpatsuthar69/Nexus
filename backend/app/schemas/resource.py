@@ -16,7 +16,7 @@ class ResourceCreate(BaseModel):
     )
     capacity: int | None = None
     location_id: UUID | None = None
-    metadata: dict[str, Any] | None = None
+    metadata_: dict[str, Any] | None = Field(None, validation_alias="metadata", serialization_alias="metadata")
 
 
 class ResourceUpdate(BaseModel):
@@ -28,7 +28,7 @@ class ResourceUpdate(BaseModel):
     )
     capacity: int | None = None
     location_id: UUID | None = None
-    metadata: dict[str, Any] | None = None
+    metadata_: dict[str, Any] | None = Field(None, validation_alias="metadata", serialization_alias="metadata")
 
 
 class ResourceRead(BaseModel):
@@ -38,7 +38,7 @@ class ResourceRead(BaseModel):
     status: str
     capacity: int | None
     location_id: UUID | None
-    metadata: dict[str, Any] | None
+    metadata_: dict[str, Any] | None = Field(None, validation_alias="metadata_", serialization_alias="metadata")
     updated_at: datetime
 
     model_config = {"from_attributes": True}

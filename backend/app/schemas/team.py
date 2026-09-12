@@ -14,7 +14,7 @@ class TeamCreate(BaseModel):
     )
     location_id: UUID | None = None
     capacity: int | None = None
-    metadata: dict[str, Any] | None = None
+    metadata_: dict[str, Any] | None = Field(None, validation_alias="metadata", serialization_alias="metadata")
 
 
 class TeamUpdate(BaseModel):
@@ -25,7 +25,7 @@ class TeamUpdate(BaseModel):
     )
     location_id: UUID | None = None
     capacity: int | None = None
-    metadata: dict[str, Any] | None = None
+    metadata_: dict[str, Any] | None = Field(None, validation_alias="metadata", serialization_alias="metadata")
 
 
 class TeamRead(BaseModel):
@@ -35,6 +35,6 @@ class TeamRead(BaseModel):
     status: str
     location_id: UUID | None
     capacity: int | None
-    metadata: dict[str, Any] | None
+    metadata_: dict[str, Any] | None = Field(None, validation_alias="metadata_", serialization_alias="metadata")
 
     model_config = {"from_attributes": True}
