@@ -6,6 +6,8 @@ from .resources import router as resources_router
 from .decisions import router as decisions_router
 from .world_state import router as world_state_router
 from .agent import router as agent_router
+from .locations import router as locations_router
+from .teams import router as teams_router
 
 __all__ = [
     "incidents_router",
@@ -14,4 +16,6 @@ __all__ = [
     "decisions_router",
     "world_state_router",
     "agent_router",
+    "locations_router",
+    "teams_router",
 ]

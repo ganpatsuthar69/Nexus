@@ -34,7 +34,7 @@ app.include_router(health_router)
 
 from fastapi import Depends
 from app.api.deps import verify_api_key
-from app.api.routers import incidents, events, resources, decisions, world_state, agent
+from app.api.routers import incidents, events, resources, decisions, world_state, agent, locations, teams
 
 # Require API Key for all of these routes
 authenticated_routers = [
@@ -44,6 +44,8 @@ authenticated_routers = [
     decisions.router,
     world_state.router,
     agent.router,
+    locations.router,
+    teams.router,
 ]
 
 for auth_router in authenticated_routers:
